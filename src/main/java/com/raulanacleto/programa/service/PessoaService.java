@@ -17,11 +17,18 @@ public class PessoaService {
     PessoaRepository pessoaRepository;
 
     public Pessoa atualizar(Long codigo, Pessoa pessoa) {
-        Pessoa pessoaSalva = pessoaRepository.findById(codigo).orElse(null);
-        if (Objects.isNull(pessoaSalva)) {
-            throw new EmptyResultDataAccessException(1);
-        }
+        Pessoa pessoaSalva = this.pessoaRepository.findById(codigo)
+                .orElseThrow(() -> new EmptyResultDataAccessException(1));
+
         BeanUtils.copyProperties(pessoa, pessoaSalva, "codigo");
-        return pessoaRepository.save(pessoaSalva);
+
+        return this.pessoaRepository.save(pessoaSalva);
+    }
+
+    public void atualizarPropriedadeAtivo(Long codigo, Boolean ativo){
+        Pessoa pessoaSalva = pessoaRepository.findById(codigo)
+                .orElseThrow(()-> new EmptyResultDataAccessException(1));
+        pessoaSalva.setAtivo(ativo);
+        pessoaRepository.save(pessoaSalva);
     }
 }
