@@ -1,0 +1,1 @@
+ALTER TABLE pessoa ALTER COLUMN codigo SET DEFAULT nextval('pessoa_codigo_seq'::regclass);
