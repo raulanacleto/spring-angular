@@ -1,6 +1,9 @@
 package com.raulanacleto.programa.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -11,14 +14,18 @@ public class Lancamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long codigo;
 
     private String descricao;
 
+    @NotNull
     @Column(name = "data_vencimento")
+    @JsonFormat(pattern =  "dd/MM/yyyy")
     private LocalDate dataVencimento;
 
+    @NotNull
     @Column(name = "data_pagamento")
+    @JsonFormat(pattern =  "dd/MM/yyyy")
     private LocalDate dataPagamento;
 
     private BigDecimal valor;
@@ -26,23 +33,25 @@ public class Lancamento {
     private String observacao;
 
     @Enumerated(EnumType.STRING) // EnumType.ORDINAL salva no banco como 0,1,2,3 etc..
+    @Column(name = "tipo")
     private TipoLancamento tipoLancamento;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "codigo_categoria")
     private Categoria categoria;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "codigo_pessoa")
     private Pessoa pessoa;
 
-
-    public Long getId() {
-        return id;
+    public Long getCodigo() {
+        return codigo;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
     }
 
     public String getDescricao() {
@@ -114,11 +123,11 @@ public class Lancamento {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Lancamento that = (Lancamento) o;
-        return Objects.equals(id, that.id);
+        return Objects.equals(codigo, that.codigo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(codigo);
     }
 }
