@@ -3,6 +3,7 @@ package com.raulanacleto.programa.resource;
 import com.raulanacleto.programa.ExceptionHandler.ProgramaExceptionHandler;
 import com.raulanacleto.programa.model.Lancamento;
 import com.raulanacleto.programa.repository.LancamentoRepository;
+import com.raulanacleto.programa.repository.filter.LancamentoFilter;
 import com.raulanacleto.programa.service.LancamentoService;
 import com.raulanacleto.programa.service.exception.PessoaInexistenteOuInativaException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,8 @@ public class LancamentoResource {
     private MessageSource messageSource;
 
     @GetMapping
-    public List<Lancamento> listarTodos() {
-        return lancamentoRepository.findAll();
+    public List<Lancamento> pesquisar(LancamentoFilter lancamentoFilter) {
+        return lancamentoRepository.filtrar(lancamentoFilter);
     }
 
     @GetMapping("/{codigo}")
