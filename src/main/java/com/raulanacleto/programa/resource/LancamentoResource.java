@@ -9,6 +9,7 @@ import com.raulanacleto.programa.service.exception.PessoaInexistenteOuInativaExc
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -62,6 +63,12 @@ public class LancamentoResource {
         String mensagemDesenvolvedor = ex.toString();
         List<ProgramaExceptionHandler.Erro> erros = Arrays.asList(new ProgramaExceptionHandler.Erro(mensagemUsuario, mensagemDesenvolvedor));
         return ResponseEntity.badRequest().body(erros);
+    }
+
+    @DeleteMapping("/{codigo}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletar(@PathVariable Long codigo){
+        lancamentoRepository.deleteById(codigo);
     }
 
 }
